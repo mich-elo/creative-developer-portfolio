@@ -4,15 +4,28 @@ html, body {
     padding: 0;
 }
   
-canvas {
-    background: rgb(255, 170, 170);
-    display: block;
+#canvas {
+    position: absolute;
+    top: -192px;
+    left: 0;
+    background-image: url('../assets/images/world2.png'), url('../assets/images/BG.png');
+    background-repeat: no-repeat, no-repeat;
+    background-size: contain, contain;
 }
 
 #wrapper{
-    display: flex;
+    position: relative;
     width: 100%;
+    display: flex;
     justify-content: center;
+}
+
+#camera{
+    position: relative;
+    width: 320px;
+    height: 448px;
+    overflow: hidden;
+    background-color: rgb(255, 64, 198);
 }
 
 /* @media only screen and (min-width: 600px) {

@@ -7,9 +7,13 @@
     <body>
    
         <div id="wrapper">
-            <canvas id="canvas" width="300" height="300"></canvas>
+            <div id="camera">
+                <canvas id="canvas" width="1024" height="640">
+                    your browser does no support canvas
+                </canvas> 
+            </div>
         </div>
 
-        <script src="js/snakegame.js"></script>
+        <script type="module" src="js/snakegame.js"></script>
     </body>
 </html>
