@@ -24,8 +24,8 @@ export function iscollideTop(ptop, pcbottom){
         }
         return false;
     }
-export function iscollideBottom(pbottom, pctop){
-    if(pbottom >= pctop){
+export function iscollideBottom(pbottom, pctop, pright, pcLength){
+    if((pbottom >= pctop) && (pright < pcLength) ){
         return true;
     }
     return false;

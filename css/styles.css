@@ -22,7 +22,7 @@ html, body {
 
 #camera{
     position: relative;
-    width: 320px;
+    width: 1024px;
     height: 448px;
     overflow: hidden;
     background-color: rgb(255, 64, 198);
