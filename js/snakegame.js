@@ -1,7 +1,6 @@
 import { iscollideBottom, detectCollision } from "./engine/collisions.mjs";
 import GAMEDATA from "./gamedata/gamedata.mjs";
 
-
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var camera = document.getElementById("camera");
@@ -40,7 +39,7 @@ var player = {
         x: 0, 
         y: 10
     }, 
-    vel: {x: 7, y: 0}, // velocity
+    vel: {x: 7, y: 10}, // velocity
 }
 
 var spriteColumn = 0;
@@ -48,7 +47,8 @@ var yposition = 20;
 
 var animationStates = {
     running:'running',
-    idle:"idle"
+    idle:"idle",
+    jump:"jump"
 }
 
 var currentAnimationState = animationStates.idle
@@ -58,6 +58,10 @@ var currentAnimationState = animationStates.idle
 
 var viewLimitRight = canvas.clientWidth - (camera.clientWidth);
 var viewLimitLeft = 0;
+
+// CONSTANTS
+const JUMPHEIGHT = 100;
+
 
 function init(){
     for(var i = 0; i < 8; i++){
@@ -77,23 +81,25 @@ init();
 
 
 document.addEventListener('keydown', (event) => {
-    var name = event.key;
     var code = event.code;
 
     if(code === "KeyA"){
         updatePlayerLeftPos()
     }
     
-    else if(code === "KeyD"){
+    if(code === "KeyD"){
         currentAnimationState = animationStates.running;
         updatePlayerRightPos()
+    }
 
+    if(code === "Space"){
+        udatePlayerJump()
     }
 
 }, false);
 
 
-window.addEventListener("keyup", (even)=>{
+window.addEventListener("keyup", (event)=>{
     currentAnimationState = animationStates.idle
 }, false)
 
@@ -116,6 +122,7 @@ function playIdleAnimation(){
     spriteColumn++;
 }
 
+function playerJumpAnimaion(){}
 
 
 function updatePlayerLeftPos(){
@@ -135,12 +142,20 @@ function updatePlayerRightPos(){
 
 
 
+function udatePlayerJump(){
+    player.vel.y -= gravity.y;
+    player.pos.y -= player.vel.y;
+}
+
+
 function updatePlayerGravity(deltaValue){
     var isColliding = iscollideBottom( 
         player.pos.y + 128, 
         GAMEDATA.ground1.yPos,
         player.pos.x,
-        GAMEDATA.ground1.width + GAMEDATA.ground1.xPos
+        GAMEDATA.ground1.width + GAMEDATA.ground1.xPos,
+        player.pos.x + 128,
+        GAMEDATA.ground1.xPos
     )
 
     if(!isColliding){
@@ -159,9 +174,10 @@ function updatePlayerGravity(deltaValue){
     
 }
 
+
+
 function playerUpadate(deltaValue){
     updatePlayerGravity(deltaValue);
-
 }
 
 
@@ -180,23 +196,21 @@ function update(deltaValue){
     
     playerUpadate(deltaValue)
     
-    
 }
 
 function draw(){
     ctx.clearRect(0, 0, width, height);
     //draw player
 
-    // ctx.fillStyle = 'rgba(0,255,255,0.5)';
-    // ctx.fillRect(player.pos.x, player.pos.y, frameWidth, frameHeight);
-        
+    ctx.fillStyle = 'rgba(0,255,255,0.5)';
+    ctx.fillRect(player.pos.x, player.pos.y, frameWidth, frameHeight);
     
-    if(currentAnimationState === animationStates.running){
-        ctx.drawImage(loadedImages[spriteColumn], player.pos.x, player.pos.y, frameWidth, frameHeight );
-    }
-    else{
-        ctx.drawImage(idleAnimationImages[spriteColumn], player.pos.x, player.pos.y, frameWidth, frameHeight);
-    }
+    // if(currentAnimationState === animationStates.running){
+    //     ctx.drawImage(loadedImages[spriteColumn], player.pos.x, player.pos.y, frameWidth, frameHeight );
+    // }
+    // else{
+    //     ctx.drawImage(idleAnimationImages[spriteColumn], player.pos.x, player.pos.y, frameWidth, frameHeight);
+    // }
 }
 
 
